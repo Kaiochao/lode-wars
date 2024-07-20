@@ -10,6 +10,7 @@
 // END_FILE_DIR
 
 // BEGIN_PREFERENCES
+#define DEBUG
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
@@ -32,6 +33,7 @@
 #include "assets\code\game\movables\mobs\aliens\races.dm"
 #include "assets\code\game\movables\mobs\login\login.dm"
 #include "assets\code\game\movables\mobs\movement\move.dm"
+#include "assets\code\game\movables\mobs\movement\reciprocals.dm"
 #include "assets\code\game\movables\objects\objects.dm"
 #include "assets\code\game\movables\objects\rocks.dm"
 #include "assets\code\game\movables\objects\items\items.dm"

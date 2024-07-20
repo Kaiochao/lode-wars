@@ -1,36 +1,23 @@
-atom/
-	var/
-		list/autoTileTypes
-	proc/
-		GetTileState(exclude)
+obj/outdoors/rocks/wall
+	AutoTilesWith(atom/atom)
+		return istype(atom, /obj/outdoors/rocks/wall) \
+			|| istype(atom, /obj/outdoors/structures/bases/wall)
 
-			var/list/turf/adjacentTiles[4]
-			for(var/direction in list(1,2,4,8))
-				for(var/atom/neighbor in GetStep(src,direction))
-					if(!(neighbor.type in src.autoTileTypes)) continue
-					if(neighbor == exclude) continue
-					if(neighbor != src) adjacentTiles[num2dir(direction)] = neighbor
+turf/outdoors/dense/water
+	AutoTilesWith(atom/atom)
+		return istype(atom, /turf/outdoors/dense/water)
 
-			var/hasTop = adjacentTiles["NORTH"]
-			var/hasBottom = adjacentTiles["SOUTH"]
-			var/hasRight = adjacentTiles["EAST"]
-			var/hasLeft = adjacentTiles["WEST"]
+atom
+	proc/AutoTilesWith(atom/atom)
+		return false
 
-			// this is pretty rough, but it helped me conceptualize it
-
-			if(!hasTop && !hasBottom && !hasLeft && !hasRight) return "0"
-			if(hasTop && !hasBottom && !hasLeft && !hasRight) return "1"
-			if(!hasTop && hasBottom && !hasLeft && !hasRight) return "2"
-			if(hasTop && hasBottom && !hasLeft && !hasRight) return "3"
-			if(!hasTop && !hasBottom && !hasLeft && hasRight) return "4"
-			if(hasTop && !hasBottom && !hasLeft && hasRight) return "5"
-			if(!hasTop && hasBottom && !hasLeft && hasRight) return "6"
-			if(hasTop && hasBottom && !hasLeft && hasRight) return "7"
-			if(!hasTop && !hasBottom && hasLeft && !hasRight) return "8"
-			if(hasTop && !hasBottom && hasLeft && !hasRight) return "9"
-			if(!hasTop && hasBottom && hasLeft && !hasRight) return "10"
-			if(hasTop && hasBottom && hasLeft && !hasRight) return "11"
-			if(!hasTop && !hasBottom && hasLeft && hasRight) return "12"
-			if(hasTop && !hasBottom && hasLeft && hasRight) return "13"
-			if(!hasTop && hasBottom && hasLeft && hasRight) return "14"
-			return "15"
+	proc/GetTileState(exclude)
+		var/global/list/CardinalDirs = list(NORTH, SOUTH, EAST, WEST)
+		var/state = 0
+		for(var/direction in CardinalDirs)
+			var/list/neighbors = GetStep(src, direction)
+			neighbors.Remove(src, exclude)
+			for(var/atom/neighbor in neighbors)
+				if(AutoTilesWith(neighbor)) 
+					state += direction
+		return num2text(state)

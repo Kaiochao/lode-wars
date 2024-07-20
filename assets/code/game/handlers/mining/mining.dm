@@ -3,13 +3,12 @@ obj/outdoors/rocks
 		var/
 			durability = 1
 			ore/ore
-			initialColor
 
-		Cross(atom/movable/bumper)
+		BumpedBy(atom/movable/bumper)
+			..()
 			if(istype(bumper,/mob/alien/))
-				. = ..()
-				if(!.) Mine(bumper, 1)
-			else ..()
+				Mine(bumper, 1)
+
 		MapInit()
 			..()
 			spawn(5) AddOre()
@@ -26,10 +25,20 @@ obj/outdoors/rocks
 
 
 			GetOre()
-				var/oreType = pick(ASBYLITE_PROB;/ore/asbylite, DRAXILITE_PROB;/ore/draxilite, GREZLORITE_PROB;/ore/grezlorite,\
-									HEZERITE_PROB;/ore/hezerite, KABURITE_PROB;/ore/kaburite, NECITE_PROB;/ore/necite, PETRITE_PROB;/ore/petrite, EMPTY_PROB;null)
+				var/oreType = pick(
+					ASBYLITE_PROB; /ore/asbylite, 
+					DRAXILITE_PROB; /ore/draxilite, 
+					GREZLORITE_PROB; /ore/grezlorite,
+					HEZERITE_PROB; /ore/hezerite, 
+					KABURITE_PROB; /ore/kaburite, 
+					NECITE_PROB; /ore/necite, 
+					PETRITE_PROB; /ore/petrite, 
+					EMPTY_PROB; null)
 				if(!oreType) return
-				var/amount = pick(POOR_PROB;POOR_AMOUNT, MEDIUM_PROB;MEDIUM_AMOUNT, RICH_PROB;RICH_AMOUNT)
+				var/amount = pick(
+					POOR_PROB; POOR_AMOUNT, 
+					MEDIUM_PROB; MEDIUM_AMOUNT, 
+					RICH_PROB; RICH_AMOUNT)
 				return new oreType (amount)
 
 			Mine(mob/alien/player, damage)
@@ -41,24 +50,23 @@ obj/outdoors/rocks
 				MiningAnimation()
 				sleep((50 - player.digging) * durability)
 				player.icon_state = ""
-				Destroy(player)
+				Destroy()
 				player.isMining = false
 
 			MiningAnimation()
-
-				animate(src, transform = matrix(1.1,0,-0.5,0,1,0), color = gradient(initialColor, "#ddd", 0.2), time = 2, loop = -1)
-				animate(transform = matrix(), color = initialColor, time = 2)
+				animate(src, transform = matrix(1.1, 1, MATRIX_SCALE), time = 2, loop = -1)
+				animate(transform = null, time = 2)
 
 			CrumbleAnimation()
-				flick("crumble",src)
+				flick("crumble", src)
 				sleep(3)
 
-			UpdateSurroundingTiles(turf/tile)
-				for(var/obj/outdoors/rocks/wall/wall in range(1,tile))
+			UpdateSurroundingTiles()
+				for(var/obj/outdoors/rocks/wall/wall in orange(1, loc))
 					wall.UpdateState(src)
 
-			Destroy(mob/miner)
+			Destroy()
 				CrumbleAnimation()
-				if(ore) ore.RetrieveOre(src.loc)
-				UpdateSurroundingTiles(src.loc)
-				src.loc = null
+				ore?.RetrieveOre(loc)
+				UpdateSurroundingTiles()
+				loc = null

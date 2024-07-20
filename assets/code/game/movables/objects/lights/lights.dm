@@ -1,20 +1,20 @@
 
-obj/lights/
+obj/lights
 	icon = 'assets/art/effects/screen.dmi'
 	icon_state = "light"
 	mouse_opacity = 0
 	appearance_flags = RESET_ALPHA | KEEP_APART | RESET_COLOR
 	plane = LIGHTING_PLANE
-	var/
-		lightType = /light/
-		light/light
-	proc/
-		AddLights()
-			AddLight(lightType)
-			..()
-		AddLight(lightType)
-			vis_contents += new lightType (loc)
 
+	var/lightType = /light
+	var/light/light
+
+	New()
+		..()
+		AddLights()
+
+	proc/AddLights()
+		vis_contents += new lightType
 
 	small_light
 		lightType = /light/small
@@ -23,17 +23,13 @@ obj/lights/
 		lightType = /light/ambient
 
 	white_light
-		lightType = /light/white_light/
+		lightType = /light/white_light
 
 	mining_light
-		lightType = /light/mining_light/
+		lightType = /light/mining_light
 
 	respawner_light
 		lightType = /light/respawner_light
-
-	New()
-		..()
-		AddLights()
 
 light
 	parent_type = /obj
@@ -44,21 +40,17 @@ light
 	alpha = 45
 	blend_mode = BLEND_ADD
 
-	var/
-		size = 6
-		initialSize
-		secondSize
+	var/size = 6
 
 	proc/SetupLight()
-		transform = initialSize = matrix(size, size, MATRIX_SCALE)
-		..()
+		transform = matrix(size, size, MATRIX_SCALE)
 
 	New()
 		..()
 		SetupLight()
 
 	small
-		size =3.2
+		size = 3.2
 		color = "#777f"
 		alpha = 100
 
@@ -84,7 +76,7 @@ light
 		size = 15
 		SetupLight()
 			..()
-			secondSize = matrix(size-1, size-1, MATRIX_SCALE)
-
-			animate(src, transform = secondSize, time = 15, loop = -1)
-			animate(transform = initialSize, time = 15, loop = -1)
+			var/matrix/a = transform
+			var/matrix/b = matrix(size-1, size-1, MATRIX_SCALE)
+			animate(src, transform = b, time = 15, loop = -1)
+			animate(transform = a, time = 15)

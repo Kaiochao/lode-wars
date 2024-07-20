@@ -19,8 +19,7 @@ mob/alien/
 
 	proc/
 		CanHoldItem(obj/items/item)
-			if(GetCurrentWeight() + item.weight > maxWeight) return false
-			return true
+			return GetCurrentWeight() + item.weight <= maxWeight
 
 		GetCurrentWeight()
 			var/weight = 0
@@ -32,6 +31,6 @@ mob/alien/
 	Move(atom/newLoc)
 		if(isMining) return 0
 		if(nextMove > world.time) return 0
-		glide_size = TILE_WIDTH / max(MOVE_DELAY,TICK_LAG) * TICK_LAG
+		glide_size = TILE_WIDTH / max(MOVE_DELAY, TICK_LAG) * TICK_LAG
 		. = ..()
 		if(.) nextMove = world.time + MOVE_DELAY

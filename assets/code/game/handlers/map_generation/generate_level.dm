@@ -5,12 +5,12 @@ proc/
 
 	GenerateLevel(waterLevel = 0.52, deepWaterThreshold = 0.08, bedRockThreshold = 0.7)
 		set background = TRUE
-		var/
-			OpenSimplex2F/noise = new(0)
-			scale = rand(4,8)
-			global/_id
-			id = (_id = new/datum)
-			list/turfs = new
+		
+		var/OpenSimplex2F/noise = new(0)
+		var/scale = rand(4,8)
+		var/global/_id
+		var/id = (_id = new/datum)
+		var/list/turfs = new
 
 		for(var/turf/outdoors/flooring/ground/turf in world)
 			turfs += turf

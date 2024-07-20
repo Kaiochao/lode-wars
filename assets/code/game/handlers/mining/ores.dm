@@ -22,7 +22,7 @@ ore
 				if(RICH_AMOUNT) return "rich"
 
 		EffectAnimation()
-			..()
+		
 
 
 	New(amount)

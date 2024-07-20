@@ -12,5 +12,8 @@ mob/alien/proc/
 		icon_state = ""
 
 	CanSwim()
-		if(istype(src,/mob/alien/mobbel/)) return 1
-		return 0
+		return false
+
+mob/alien/mobbel
+	CanSwim() 
+		return true

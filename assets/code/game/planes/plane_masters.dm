@@ -25,6 +25,10 @@ obj/screen_objects/
 		floor_plane
 			plane = FLOOR_PLANE
 
+		shadows_plane
+			plane = SHADOWS_PLANE
+			alpha = 50
+
 		wall_plane
 			plane = WALL_PLANE
 			mouse_opacity = 0

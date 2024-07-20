@@ -82,5 +82,5 @@ window "default"
 		anchor2 = 100,100
 		saved-params = "zoom;letterbox;zoom-mode"
 		letterbox = false
-		style = ".chat{color:#ddd;vertical-align:bottom;}"
+		style = ".chat{color:#ddd;vertical-align:bottom;-dm-text-outline: 1px #1a1a1e}"
 

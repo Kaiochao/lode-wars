@@ -8,5 +8,4 @@
 	Message(src, "Water: [num2text(waterLevel*100,2)]%.")
 
 mob/proc/FindSpawner()
-	for(var/obj/outdoors/structures/bases/respawner/tile in world)
-		return tile.loc
+	return get_step(locate(/obj/outdoors/structures/bases/respawner), 0)

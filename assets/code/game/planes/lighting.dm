@@ -17,6 +17,7 @@ mob/proc/
 	InitPlanes()
 		if(!client) return
 		new/obj/screen_objects/plane_master/wall_plane(client)
+		new/obj/screen_objects/plane_master/shadows_plane(client)
 		new/obj/screen_objects/plane_master/floor_plane(client)
 		new/obj/screen_objects/plane_master/movable_plane(client)
 		new/obj/screen_objects/plane_master/lighting_plane(client)

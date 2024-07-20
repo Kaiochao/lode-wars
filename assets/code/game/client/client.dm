@@ -1,4 +1,5 @@
 client
+	tick_lag = 0.01
 	perspective = EDGE_PERSPECTIVE
 	var/
 		ui/chat/chatBox = new()

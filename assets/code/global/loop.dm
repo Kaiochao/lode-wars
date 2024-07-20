@@ -1,12 +1,10 @@
 var/ticker = 0
-proc/loop()
-	set waitfor = false
-	while(world)
+world
+	Tick()
+		..()
 		try
 			ticker++
 			if(!ticker % 600) SetRoundTimer(roundTimer-1)
-			if(playersToUpdate?.len) MoveMobs()
+			if(length(playersToUpdate)) MoveMobs()
 		catch(var/exception/e)
-			world.log << "[e] on [e.file]:[e.line]"
-			continue
-		sleep(world.tick_lag)
+			log << "[e] on [e.file]:[e.line]"

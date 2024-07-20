@@ -3,11 +3,10 @@
  */
 
 world
-	fps = 25		// 25 frames per second
+	tick_lag = TICK_LAG
 	icon_size = 32	// 32x32 icon size by default
 	turf = /turf/outdoors/flooring/ground
 	view = 8		// show up to 6 tiles outward from center (13x13 view)
 	New()
-		world.log = file("debug.txt")
+		log = file("debug.txt")
 		..()
-		loop()

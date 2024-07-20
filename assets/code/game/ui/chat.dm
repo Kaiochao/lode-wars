@@ -7,31 +7,24 @@ ui/chat
 	maptext_width = 170
 	maptext_height = 150
 	plane = UI_FOREGROUND_PLANE
-	filters = list(filter(type="outline",size=1,color="#1a1a1e"),filter(type="drop_shadow",x=0,y=-1,size=0,color="#1a1a1e"))
-	var/
-		start = "<span class='chat'>"
-		end = "</span>"
-		list/messages = list()
-		maxLines = 5
-	proc/
-		UpdateMessages()
-			maptext = "[start][ListToString(messages,"\n")][end]"
 
-		OutputMessage(msg)
-			if(length(msg) > MAX_MSG)
-				while(length(msg) > MAX_MSG)
-					OutputMessage(copytext(msg, 1, MAX_MSG+1))
-					msg = copytext(msg, MAX_MSG+1)
+	var/list/messages
+	var/max_messages = 5
+	var/max_message_length = 30
 
-			if(messages.len >= maxLines)
-				for(var/idx = 1, idx < maxLines, idx++)
-					messages[idx] = messages[idx+1]
-				messages[maxLines] = msg
-			else
-				messages += msg
-
-			UpdateMessages()
 	New()
 		..()
+		messages = list()
 		UpdateMessages()
 
+	proc/UpdateMessages()
+		maptext = "<span class='chat'>[messages.Join("\n")]</span>"
+
+	proc/OutputMessage(msg)
+		if(length(msg) > max_message_length)
+			.(copytext(msg, 1, max_message_length + 1))
+			.(copytext(msg, max_message_length + 1))
+		else 
+			messages += msg
+			messages.Cut(1, max(1, 1 + length(messages) - max_messages))
+			UpdateMessages()

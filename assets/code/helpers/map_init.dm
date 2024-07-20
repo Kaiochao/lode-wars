@@ -2,32 +2,33 @@
  Snippet by Ter13, link: http://www.byond.com/forum/post/2080183
 */
 
+var/list/InitList = list()
+var/MapInitialized = 0
+
 world
 	New()
 		..()
 		Generate()
 		MapInitialized()
-var
-	list/InitList = list()
-	MapInitialized = 0
 
-proc
-	MapInitialized()
+	proc/MapInitialized()
 		if(!MapInitialized)
 			MapInitialized = 1
-			for(var/atom/o in InitList)
-				o.MapInit()
+			for(var/atom/o as anything in InitList)
+				if(tick_usage > 90)
+					sleep(tick_lag)
+				o?.MapInit()
 			InitList = null
 
 atom
-	var/PostInit = 0 //set to 1 if you need to do post-initialization stuff.
-	New()
-		if(MapInitialized)
-			PostInit&&MapInit()
-		else if(PostInit)
-			InitList[src] = 1
-		..() //don't supercall unless you have other /atom/New() functions
+	var/PostInit = false
 
-	proc
-		MapInit()
-            //do map initialization stuff here
+	New()
+		..()
+		if(PostInit)
+			if(MapInitialized)
+				MapInit()
+			else
+				InitList[src] = true
+
+	proc/MapInit()

@@ -9,7 +9,7 @@
 
 #define TILE_WIDTH  32
 #define TILE_HEIGHT 32
-#define TICK_LAG    0.4
+#define TICK_LAG    0.2
 
 //probabilities
 #define ASBYLITE_PROB 40
