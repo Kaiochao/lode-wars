@@ -6,7 +6,7 @@ turf/outdoors/
 
 	proc/
 		CanBuild(mob/player)
-			return !density && !src.contents.len && get_dist(src,player)<=1
+			return !density && !length(contents) && bounds_dist(src, player) <= 0
 
 		BuildLamp(mob/player)
 			set waitfor = 0
